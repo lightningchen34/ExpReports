@@ -86,4 +86,59 @@
         \item 电路工作不正常时，首先通过集成电路的管脚处测试芯片的电源和地引脚。
     \end{itemize}
 
+\section{实验结果}
+
+    \subsection{CMOS 与非门 CD4011 的平均延迟时间}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.7\linewidth]{figures/f4}
+            \caption{测量 CMOS 与非门 CD4011 的平均延迟时间实验图}
+        \end{figure}
+
+        \par 平均延迟时间：$t_{pd}=\frac{t_{pHL}+t_{pLH}}{2}=\frac{23ns + 22ns}{2}=22.5ns$ 。
+
+    \subsection{CMOS 与非门 CD4011 的电压传输特性}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.7\linewidth]{figures/f5}
+            \caption{测量 CMOS 与非门 CD4011 的电压传输特性实验图}
+        \end{figure}
+
+    \subsection{TTL 与非门 74LS00 的平均延迟时间}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.7\linewidth]{figures/f6}
+            \caption{测量 TTL 与非门 74LS00 的平均延迟时间实验图}
+        \end{figure}
+
+        \par 平均延迟时间：$t_{pd}=\frac{t_{pHL}+t_{pLH}}{8}=\frac{27ns + 29ns}{8}=7ns$ 。
+
+    \subsection{TTL 与非门 74LS00 的电压传输特性}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.7\linewidth]{figures/f7}
+            \caption{测量 TTL 与非门 74LS00 的电压传输特性实验图}
+        \end{figure}
+
+\section{思考题}
+
+    \subsection{应该如何处理 TTL 与非门的多余输入端？}
+        
+        \par TTL 多余的输入端可以选择接一大外电阻、通过大电阻接地、接入高电平或者与使用的输入端并联。
+    
+    \subsection{应该如何处理 CMOS 与非门的多余输入端？}
+        \par CMOS 多余的输入端不能悬空，应将多余输入端接入高电平，通过限流电阻接电源。
+
+\section{实验总结}
+
+    \begin{itemize}
+        \item 拔插芯片时要格外小心，注意引脚正确连接；
+        \item 延迟时间较短的门电路可以采用串联取平均的方式进行测量，得到更精确的结果
+        \item 通过实验,我对上升/下降沿，以及门电路的延迟时间有了更多的认识
+    \end{itemize}
+
 \end{document}
