@@ -1,0 +1,197 @@
+%!TEX program=xelatex
+\documentclass[a4paper]{article}
+\usepackage{ctex}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    numbers=left, 
+    numberstyle= \tiny, 
+    keywordstyle= \color{ blue!70},
+    commentstyle= \color{red!50!green!50!blue!50}, 
+    frame=shadowbox,
+    rulesepcolor= \color{ red!20!green!20!blue!20} ,
+    escapeinside=``,
+    framexleftmargin=2em
+}
+
+\geometry{left=3.0cm,right=3.0cm,top=3.5cm,bottom=3.5cm}
+
+\title{点亮数字人生}
+\author{2017011341, 陈旭}
+\date{2019 年 4 月}
+
+\begin{document}
+
+\maketitle
+
+\section{实验目的}
+
+    \begin{itemize}
+        \item 通过数码管点亮程序,熟悉 VHDL 语言,了解掌握硬件程序的编写规范；
+        \item 进一步理解可编程芯片的工作原理。
+    \end{itemize}
+
+\section{实验内容}
+
+    \begin{itemize}
+        \item 同时点亮一个经过译码的数码管和一个未经过译码的数码管；
+        \item 设计一个数码管显示实验，要求有规律地显示数列（奇数列、偶数列、自然数列等），尽可能多地点亮数码管。要求试验中至少使用一个不带译码的数码管。
+    \end{itemize}
+
+\section{代码与分析}
+
+    \subsection{实验内容 1}
+
+        \subsubsection{代码}
+
+        \begin{lstlisting}
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+entity test is
+    port(
+        key: in std_logic_vector(3 downto 0);
+        display: out std_logic_vector(6 downto 0);
+        display_4: out std_logic_vector(3 downto 0)
+    );
+end test;
+architecture fire of test is
+begin
+    display_4<=key;
+    process(key)
+    begin
+        case key is
+            when "0000"=>display<="1111110";
+            when "0001"=>display<="0110000";
+            when "0010"=>display<="1101101";
+            when "0011"=>display<="1111001";
+            when "0100"=>display<="0110011";
+            when "0101"=>display<="1011011";
+            when "0110"=>display<="0011111";
+            when "0111"=>display<="1110000";
+            when "1000"=>display<="1111111";
+            when "1001"=>display<="1110011";
+            when others=>display<="0000000";
+        end case;
+    end process;
+end fire;
+            \end{lstlisting}
+
+        \subsubsection{分析}
+            \par 设置 display 用于控制不带译码器的数码管，display\_4 用于控制带译码器的数码管，key 表示开关的输入端口，通过 4 个开关来控制 4 个 key 的值，数码管显示相应的值。
+
+    \subsection{实验内容 2}
+
+        \subsubsection{代码}
+
+        \begin{lstlisting}
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+entity test is
+    port(
+        display: out std_logic_vector(6 downto 0);
+        display_4_oe: out std_logic_vector(2 downto 0);
+        oe: out std_logic;
+        clk: in std_logic;
+        rst: in std_logic;
+        btn: in std_logic
+    );
+end test;
+architecture fire of test is
+    signal display_4_buf: std_logic_vector(3 downto 0):="0000";
+    signal display_4_buf_oe: std_logic_vector(2 downto 0):="000";
+    signal cnt:integer:=0;
+    signal j:integer range 0 to 10:=1;
+    signal rst1:boolean:=false;
+    signal rst2:boolean:=false;
+    signal btn1:boolean:=false;
+    signal btn2:boolean:=false;
+    signal go:boolean:=true;
+begin
+    process(clk)
+    begin
+        if (clk'event and clk='1') then
+            if (rst1 = NOT rst2) then
+                display_4_buf<="0000";
+                display_4_buf_oe<="000";
+                j<=1;
+                rst2<=rst1;
+                oe<='0';
+                cnt<=-1000000;
+                go<=true;
+            else
+                if (btn1 = NOT btn2) then
+                    go <= NOT go;
+                    btn2 <= btn1;
+                end if;
+                if (go) then
+                    cnt<=cnt+1;
+                    if (cnt=500000) then
+                        oe<='1';
+                    end if;
+                    if (cnt=1000000) then
+                        cnt<=0;
+                        j<=j+1;
+                        if (j=5) then
+                            j<=1;
+                            if (display_4_buf="1001") then
+                                display_4_buf<="0000";
+                            else
+                                display_4_buf<=display_4_buf+1;
+                            end if;
+                        end if;
+                        if (display_4_buf_oe="100") then
+                            display_4_buf_oe<="000";
+                        else
+                            display_4_buf_oe<=display_4_buf_oe+1;
+                        end if;
+                        oe<='0';
+                    end if;
+                end if;
+            end if;
+            display_4_oe<=display_4_buf_oe;
+        end if;
+    end process;
+    process(rst)
+    begin
+        if (rst'event and rst='1') then
+            rst1<=NOT rst2;
+        end if;
+    end process;
+    process(btn)
+    begin
+        if (btn'event and btn='1') then
+            btn1<=NOT btn2;
+        end if;
+    end process;
+    process(display_4_buf)
+    begin
+        case display_4_buf is
+            when "0000"=>display<="1111110";
+            when "0001"=>display<="0110000";
+            when "0010"=>display<="1101101";
+            when "0011"=>display<="1111001";
+            when "0100"=>display<="0110011";
+            when "0101"=>display<="1011011";
+            when "0110"=>display<="1011111";
+            when "0111"=>display<="1110000";
+            when "1000"=>display<="1111111";
+            when "1001"=>display<="1111011";
+            when others=>display<="0000000";
+        end case;
+    end process;
+end fire;
+            \end{lstlisting}
+
+        \subsubsection{分析}
+            \par 这里控制了一个带译码器的数码管显示自然数列，另外两个带译码器的数码管将 2、4、8 端口与该译码器接在一起，1 端口分别接入高电平和低电平，这样就能轻易实现自然数列、奇数列、偶数列的显示了。不带译码器的数码管额外处理。
+            \par 该代码还实现了通过按键来控制重置与暂停继续的功能（数列随着时间自动增长）。
+
+
+\end{document}
