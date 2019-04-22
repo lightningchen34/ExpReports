@@ -1,0 +1,320 @@
+%!TEX program=xelatex
+\documentclass[a4paper]{article}
+\usepackage{ctex}
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{diagbox}
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}  
+
+\geometry{left=2.6cm,right=2.6cm,top=3.0cm,bottom=3.0cm}
+
+\title{偏振光学实验}
+\author{2017011341, 陈旭}
+\date{2019 年 4 月}
+
+\begin{document}
+
+\maketitle
+
+\section{实验目的}
+
+\begin{itemize}
+	\item 理解偏振光学的基本概念、偏振光的起偏和检偏方法；
+	\item 学习偏振片与波片的工作原理与实验方法；
+\end{itemize}
+
+\section{实验原理}
+
+\subsection{光波偏振态的描述}
+
+\par 单色偏振光可以分解为两个偏振方向互相垂直的线偏振光的叠加：
+
+\[
+\left\{
+\begin{array}{c}
+    E_x=a_1 \cos\omega t \\
+    E_y=a_2 \cos(\omega t+\delta)
+\end{array}
+\right.
+\]
+
+\par 其中 $\delta$ 为 $x$ 方向偏振分量想对于 $y$ 方向偏振分量的位相延迟量，$a_1$、$a_2$ 分别是两偏振分量的振幅，$\omega$ 为光波的圆频率。
+
+\par 一般情况下上式表示的是椭圆偏振光。要描述椭圆偏振光还需要光强、椭圆长轴方位角 $\Psi$、椭圆短半轴 $b$ 与长半轴 $a$ 之比和椭圆的旋向四个参量，本实验不考虑光强和椭圆旋向，剩下的量之间的关系可以由下式确定：
+
+\[
+\left\{
+\begin{array}{l}
+    \Psi=\frac{1}{2}\arctan(\tan{2\beta}\cdot\cos\delta)\\
+    \frac{b^2}{a^2}=\frac{2}{1+\sqrt{1-(sin\delta\cdot\cos{2\beta})^2}}-1
+\end{array}
+\right.
+\]
+
+\par 式中定义辅助角 $\beta=\arctan(\frac{a_2}{a_1})$。
+
+\subsection{偏振片}
+
+\par 对于一个实际的偏振器，沿投射方向的振动的光波的光强透射率和沿消光轴方向振动的光波的光强透射率被称为主透射率，记为 $T_1$、$T_2$，消光比为 $e=\frac{T_2}{T_1}$。振动方向和透射轴方向成 $\theta$ 角的线偏振光经过偏振片后投射率为（马吕斯定理）：
+
+\[
+    T_0=(T_1-T_2)\cos^2\theta+T_2=\frac{1}{2}(T_1^2+T_2^2)\cos^2\theta+T_1T_2\sin^2\theta
+\]
+
+\par 实验中可以根据以下式子计算消光比：
+
+\[
+    \frac{I_{min}}{I_{max}}=\frac{2T_1T_2}{T_1^2+T_2^2}=\frac{2e}{1+e^2}\approx 2e
+\]
+
+\par 大多数情况下近似有 $\frac{b^2}{a^2}=\frac{I_{min}}{I_{max}}$。
+
+\subsection{延迟器和波片}
+
+\par 设位相延迟器厚度为 $d$，快、慢轴方向振动的线偏振光折射率分别为 $n_f$、$n_s$，则：
+
+\[
+    \delta_r=2\pi(n_s-n_f)\frac{d}{\lambda_0}=\omega(n_s-n_f)\frac{d}{c_0}
+\]
+
+\par 式中 $c_0$ 和 $\lambda_0$ 分别为真空中的光速和波长，$\omega$ 为光波圆频率。
+
+\par 线偏振光沿 $x_r$、$y_r$ 方向的分量可表示为：
+
+\[
+\left\{
+\begin{array}{l}
+    E_s=a_1 \cos\omega t \\
+    E_f=a_2 \cos\omega t
+\end{array}
+\right.
+\]
+
+\par 经过相位延迟器后，两分量变为：
+
+\[
+\left\{
+\begin{array}{l}
+    E_s'=a_1 \cos\omega t' \\
+    E_f'=a_2 \cos(\omega t'+\delta_r)
+\end{array}
+\right.
+\]
+
+\par 式中 $t'=t-n_s\frac{d}{c_0}$。
+
+\par 波片在使用时首先要定出快慢轴方向，将待测波片 $C$ 放在已正交消光的偏振器 $P$ 与 $A$ 之间，旋转波片 $C$ 使三者仍然保持消光状态，此时波片的一个轴已经平行于 $P$ 的透射轴方向。
+
+\par 设 $k=\frac{I_{min}}{I_{max}}$，测定 1/4 波片的 $\delta_r$ 可以通过以下式子：
+
+\[
+    |\sin\delta_r|=\frac{2\sqrt{k}}{\sin(2\beta)(1+k)}
+\]
+
+\subsection{反射与折射时的起偏现象}
+
+\par 用 $\theta_r$ 和 $\theta_t$ 分别表示反射角和入射角，可得：
+
+\[
+    \theta_i=\theta_r,\ \sin\theta_t=\frac{1}{n}\sin\theta_i
+\]
+
+\par 由菲涅尔公式，可得：
+
+\[
+\begin{array}{l}
+    R_P=r_P^2=[\frac{\tan(\theta_i-\theta_t)}{\tan(\theta_i+\theta_t)}]^2,\ T_P=1-R_P\\
+    R_S=r_S^2=[\frac{\sin(\theta_i-\theta_t)}{\sin(\theta_i+\theta_t)}]^2,\ T_S=1-R_S
+\end{array}
+\]
+
+\section{实验内容}
+
+\subsection{准备}
+
+\begin{itemize}
+    \item 开启激光电源预热，调节激光偏振方向的方位。
+    \item 调整仪器起偏管和检偏管的方位、俯仰，使激光束由光源发出通过起偏管中心附近，由检偏管中心射出。
+    \item 调小平台与分光计主轴基本垂直。
+\end{itemize}
+
+\subsection{观测布儒斯特角和偏振器的特性}
+
+\begin{itemize}
+    \item 定出入射角为布儒斯特角时的平台方位角度数 $\alpha_B$。
+    \item 透射轴位于水平方向时度盘读数记为 $p_{\Leftrightarrow}$，$P$ 透射轴与 $A$ 透射轴正交时记下 $A$ 盘的度盘读数为 $\alpha_{\updownarrow}$。
+    \item $P$ 盘不动，转动 $A$ 盘，依次交替记下投射光强极值，算出消光比 $e$。
+    \item 测量透射光强 $I_m$ 和两偏振器夹角 $\theta$ 间的关系。
+\end{itemize}
+
+\subsection{1/4 波片的特性研究}
+
+\begin{itemize}
+    \item 定波片 $C_0$ 的快轴方向：装上波片，使其快轴位于竖直方向，读出刻度盘方位角。
+    \item 线偏振光经过 1/4 波片：置波片慢轴与水平方向，调整起偏器的透射轴和慢轴夹角，测得透射光长轴方位角 $\Psi$ 和光强极值比 $\frac{b^2}{a^2}\approx \frac{I_{min}}{I_{max}}$。
+    \item 定待测波片 $C_x$ 的轴方向：将波片放于小平台上，使光束垂直透过，定出其某一轴在竖直方向时的度盘示值。
+    \item 观测偏振光通过 1/2 波片或全波片的现象：令 $C_0$ 的快轴与 $C_x$ 的某一个轴平行，来判断 $C_x$ 的快轴方向。
+    \item 观测偏振光通过 1/2 波片或全波片的现象：令 $C_0$ 的慢轴与 $C_x$ 的某一个轴平行，来判断 $C_x$ 的快轴方向。
+\end{itemize}
+
+\section{数据记录与处理}
+
+\subsection{观察激光束的偏振特性}
+
+\par 光强极小时起偏器度盘读数为：$342.1^\circ$。
+
+\subsection{观测布氏角、定起偏器 $P$ 的透射轴方向}
+
+\par 光束正入射反射镜表面时，平台方位角为：$0^\circ$。
+
+\par 交替调整小平台和起偏器 $P$ 方位角，记录下实验数据：
+
+\begin{table}[H]
+	\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			序号 & \tabincell{c}{入射角为布儒斯特角时\\的平台方位角 $\alpha_B$} & \tabincell{c}{起偏器 $P$ 透射轴在水平\\方向的方位角 $p_{\Leftrightarrow}$} \\ \hline
+			1 & $305.0^\circ$ & $271.1^\circ$ \\ \hline
+			2 & $304.0^\circ$ & $271.2^\circ$ \\ \hline
+			3 & $303.0^\circ$ & $271.2^\circ$ \\ \hline
+			平均值 & $304.0^\circ$ & $271.2^\circ$ \\ \hline
+		\end{tabular}
+\end{table}
+
+\par Brewster 角测量值 $\theta_B=\overline{\alpha_B}-\alpha_{i=0}=56^\circ$，折射率 $n=\tan\theta_B=1.4826$。
+
+\par 测量检偏器 $A$ 的透射轴方向为 $\alpha_{\updownarrow}=5^\circ$。
+
+\subsection{测消光比}
+
+\par 测得透射光强极值：
+
+\begin{table}[H]
+	\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			测量次数 & $I_{max}(mV)$ & $I_{min}(mV)$ \\ \hline
+			1 & 4.668 & -0.005 \\ \hline
+			2 & 4.670 & -0.003 \\ \hline
+			3 & 4.666 & -0.004 \\ \hline
+			平均值 & 4.668 & -0.004 \\ \hline
+		\end{tabular}
+\end{table}
+
+\par 电阻箱阻值为 $R=100\Omega$，挡住光源时 $I_0=-0.006mV$。
+
+\par 计算得消光比为 $e=\frac{\overline{I_{min}}-I_0}{2\overline{I_{max}}}=2.1422\times 10^{-4}$。
+
+\subsection{测量透射光强与两偏振器 $P$ 与 $A$ 之间夹角 $\theta$ 的关系}
+
+\par 电阻箱阻值为 $R=100\Omega$，$p=\overline{p_{\Leftrightarrow}}=271.2^\circ$，$\alpha_{\updownarrow}=5^\circ$。
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{40mm}{
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+            序号 & \tabincell{c}{起偏器与检偏\\器夹角 $\theta({}^\circ)$} & \tabincell{c}{置 A 盘于方位角\\$\alpha=\alpha_{\updownarrow}+90+\theta({}^\circ)$} & \tabincell{c}{出射光强测量值\\$I_m(mV)$} & \tabincell{c}{出射光强计算值\\$I_c\approx I_{max}\cos^2\theta+I_{min}$} & \tabincell{c}{相对偏差\\$|I_c-I_m|/I_m(\%)$} \\ \hline
+            1 & 0.0     & 95    & 4.559     & -     & -     \\ \hline
+            2 & 15.0    & 110   & 4.416     & 4.357 & 2.434 \\ \hline
+            3 & 30.0    & 125   & 3.648     & 3.503 & 1.336 \\ \hline
+            4 & 45.0    & 140   & 2.421     & 2.336 & 3.975 \\ \hline
+            5 & 0.0     & 95    & 4.566     & -     & -     \\ \hline
+            6 & 60.0    & 155   & 1.177     & 1.169 & 0.680 \\ \hline
+            7 & 75.0    & 170   & 0.283     & 0.315 & 11.31 \\ \hline
+            8 & 80.0    & 175   & 0.111     & 0.143 & 28.83 \\ \hline
+            9 & 0.0     & 95    & 4.579     & -     & -     \\ \hline
+            10 & 84.0   & 179   & 0.032     & 0.053 & 65.63 \\ \hline
+            11 & 87.0   & 182   & 0.009     & 0.015 & 66.67 \\ \hline
+            12 & 90.0   & 185   & 0.004     & 0.002 & 50.00 \\ \hline
+            13 & 0.0    & 95    & 4.581     & -     & -     \\ \hline
+            
+        \end{tabular}
+    }
+\end{table}
+
+\subsection{定待测波片 $C_x$ 的轴向}
+
+\par 起偏器 $P$ 透射轴置于水平方向 $\overline{p_{\Leftrightarrow}}=271.2^\circ$，检偏器 $A$ 透射轴置于垂直方向 $\alpha_{\updownarrow}=5^\circ$。$C_x$ 的一个轴在垂直方向时的度盘示值 $c_x=166^\circ$。
+
+\subsection{定波片 $C_0$ 的快轴方向}
+
+\par 波片快轴在垂直方向时的度盘方位角 $c_0=12.3^\circ$。
+
+\subsection{线偏振光经过 1/4 波片}
+
+\par 起偏器 $P$ 透射轴置于水平方向 $p_{\leftrightarrow}=271.2^\circ$，波片 $C_0$ 度盘示值 $c_0=12.3^\circ$。
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{22mm}{
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+            序号 & $\beta=C-C_0({}^\circ)$ & \tabincell{c}{波片方\\位角$C$} & \tabincell{c}{检偏器 $A$ 透射轴在\\出射光长轴方向时\\的方位角$\alpha_i({}^\circ)$} & \tabincell{c}{$I_{max}$\\$(mV)$} & \tabincell{c}{$I_{min}$\\$(mV)$} & \tabincell{c}{出射光长轴方位角\\$\Psi=\alpha_{\updownarrow}+90-\alpha_i({}^\circ)$} & \tabincell{c}{$b^2/a^2$\\$\approx I_{min}/I_{max}$} & $\delta_r({}^\circ)$ & $\Psi({}^\circ)$ \\ \hline
+            1 & 0.0     & 102   & 270.5 & 3.580 & 0.001 & -175.5    & 0.0004 & -        & -         \\ \hline
+            1 & 22.5    & 125   & 74.8  & 3.119 & 0.456 & 20.2      & 0.1462 & -        & -         \\ \hline
+            1 & 45.0    & 147   & 72.9  & 1.876 & 1.371 & 22.1      & 0.7308 & -        & -         \\ \hline
+            1 & 67.5    & 170   & 119.1 & 2.717 & 0.541 & -24.1     & 0.1991 & 53.67    & 0.7854    \\ \hline
+            1 & 90.0    & 192   & 267.0 & 3.050 & 0.003 & -172      & 0.0010 & 3.593    & -0.3922   \\ \hline
+            
+        \end{tabular}
+    }
+\end{table}
+
+\subsection{线偏振光通过 1/2 波片或全波片}
+
+\par $C_x$ 某轴置于垂直方向，度盘示值为 $166^\circ$，$C_0$ 快轴置于垂直方向，度盘示值为 $12.3^\circ$。
+
+\begin{table}[H]
+	\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			序号 & $p-p_{\leftrightarrow}({}^\circ)$ & $p({}^\circ)$ & 消光时 $A$ 盘度盘度数 $\alpha_i({}^\circ)$ & $\alpha_{\updownarrow}-\alpha_i({}^\circ)$ \\ \hline
+			1 & 0.0     & 271   & 4.2   & 0.8   \\ \hline
+			2 & 15.0    & 286   & 348.1 & 16.9  \\ \hline
+			3 & 30.0    & 301   & 332.0 & 33.0  \\ \hline
+			4 & 45.0    & 316   & 321.7 & 43.3  \\ \hline
+		\end{tabular}
+\end{table}
+
+\subsection{线偏振光通过 1/2 波片或全波片}
+
+\par $C_x$ 某轴置于垂直方向，度盘示值为 $166^\circ$，$C_0$ 快轴转动 $90^\circ$ 置水平方向，度盘示值为 $102.3^\circ$。
+
+\begin{table}[H]
+	\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			序号 & $p-p_{\leftrightarrow}({}^\circ)$ & $p({}^\circ)$ & 消光时 $A$ 盘度盘度数 $\alpha_i({}^\circ)$ & $\alpha_{\updownarrow}-\alpha_i({}^\circ)$ \\ \hline
+			1 & 0.0     & 271   & 187.8 & -2.8   \\ \hline
+			2 & 15.0    & 286   & 196.3 & -11.3  \\ \hline
+			3 & 30.0    & 301   & 216.7 & -31.7  \\ \hline
+			4 & 45.0    & 316   & 234.9 & -49.9  \\ \hline
+		\end{tabular}
+\end{table}
+
+\par 可判断出 $C_0$ 快轴位于竖直方向时与 $C_x$ 组成全波片，快轴位于水平方向时与 $C_x$ 组成 1/2 波片，因此 $C_x$ 快轴位于水平方向。
+
+\section{思考题}
+
+\subsection{如何由几个相同的 1/4 波片构成 1/2 波片和全波片？如何判断波片是 1/2 波片和全波片？}
+
+\par 当两个 1/4 波片的快轴相互平行时，构成 1/2 波片；当两个 1/4 波片的快轴相互垂直时，构成全波片。
+
+\par 可以旋转入射的线偏振光，若透射光反方向旋转，则为 1/2 波片。若透射光同方向旋转，则为全波片。
+
+\subsection{在光隔离器中，讨论波片快慢轴与P透射轴应满足的位置关系及光隔离器原理。}
+
+\par 波片快慢轴与 $P$ 透射轴夹角为 $45^\circ$。
+
+\par 光通过偏振片 $P$ 后，成为线偏振光，振动方向与 $P$ 透射轴平行，再通过与偏振片 $P$ 夹角为 $45^\circ$ 的波片，变为圆偏振光，在表面 $M$ 反射后，由于存在半波损失，圆偏振光旋向改变，反向通过 1/4 波片时，变为线偏振光，振动方向与 $P$ 透射轴垂直，无法通过偏振片 $P$，由此实现对反射光波的隔离。
+
+\section{实验体会}
+
+\par 这次实验让我加深了对偏振光概念的理解，掌握了偏振片和波片的基本原理和使用方法。实验过程中，助教的详细讲解也给我带来了很大的帮助！
+
+\end{document}
