@@ -1,0 +1,194 @@
+%!TEX program=xelatex
+\documentclass[a4paper]{article}
+\usepackage{ctex}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    numbers=left, 
+    numberstyle= \tiny, 
+    keywordstyle= \color{ blue!70},
+    commentstyle= \color{red!50!green!50!blue!50}, 
+    frame=shadowbox,
+    rulesepcolor= \color{ red!20!green!20!blue!20} ,
+    escapeinside=``,
+    framexleftmargin=2em
+}
+\geometry{left=3.0cm,right=3.0cm,top=3.5cm,bottom=3.5cm}
+\title{MIPS32监控程序模拟实验}
+\author{2017011341, 陈旭}
+\date{2019 年 9 月}
+\begin{document}
+\maketitle
+\newpage
+\section{熟悉环境}
+
+    \subsection{启动模拟器}
+
+    \begin{itemize}
+        \item 运行 ... 启动 MIPS32 模拟器；
+        \item 运行 ... 连接 MIPS32 模拟器，然后在弹出的命令行中执行相关指令。
+    \end{itemize}
+
+    \subsection{A 指令}
+
+        用于向内存中写入汇编代码，使用方法：在命令行中输入 A，并回车，接着输入需要写入的内存地址，然后即可开始编写汇编代码，以空行结束。
+
+        \begin{figure}[H]
+            \centering
+            %\includegraphics[width=0.7\linewidth]{figures/}
+            \caption{A 指令示例}
+        \end{figure}
+
+    \subsection{G 指令}
+
+        编译并运行指定地址上的汇编代码，使用方法：在命令行输入 G，并回车，接着输入汇编代码所在的内存地址。
+
+        \begin{figure}[H]
+            \centering
+            %\includegraphics[width=0.7\linewidth]{figures/}
+            \caption{G 指令示例}
+        \end{figure}
+
+    \subsection{D 指令}
+
+        查看内存上的数据，使用方法：在命令行输入 D，并回车，接着输入需要查看的内存地址，以及查看的长度。
+
+        \begin{figure}[H]
+            \centering
+            %\includegraphics[width=0.7\linewidth]{figures/}
+            \caption{D 指令示例}
+        \end{figure}
+
+    \newpage
+
+
+\section{实验内容}
+
+    \subsection{斐波那契数列}
+
+        \subsubsection{实验说明}
+
+            求前 10 个 Fibonacci 数，将结果保存到起始地址为 0x80400000 的 10 个字中，并用 D 命令检查结果正确性。
+        
+        \subsubsection{实验思路}
+
+            实验主体是实现一个循环，在循环中通过三个变量之间的轮转来求斐波那契数列，同时将数写入内存中，每次循环内存地址和计数变量都增加（内存地址每次增加 4），计数变量到 10 时退出循环。
+        
+        \subsubsection{实验代码}
+
+            \begin{lstlisting}
+li $t0, 0x1
+li $t1, 0x1
+li $t3, 0x0
+li $t4, 0xA
+li $a0 , 0x80400000
+sw $t0, 0($a0)
+addio $a0, $a0, 4
+addu $t2, $t0, $t1
+move $t0, $t1
+move $t1, $t2
+addiu $t3, $t3, 0x1
+bne $t3, $t4, -28
+nop
+jr $31
+nop
+            \end{lstlisting}
+
+        \subsubsection{实验结果}
+
+            \begin{figure}[H]
+                \centering
+                %\includegraphics[width=0.7\linewidth]{figures/}
+                \caption{任务 1 实验结果}
+            \end{figure}
+
+        \newpage
+
+    \subsection{可见字符}
+
+        \subsubsection{实验说明}
+        
+            输出所有可见字符（0x21$\sim$0x7F）到终端。
+        
+        \subsubsection{实验思路}
+
+            实验主体是实现一个循环，从 0x21 开始将对应的字符输出，每次循环对输出的 ASCII 码进行累加，大于 0x7F 则退出。
+        
+        \subsubsection{实验代码}
+
+            \begin{lstlisting}
+li $t0, 0x1
+li $t1, 0x1
+li $t3, 0x0
+li $t4, 0xA
+li $a0 , 0x80400000
+sw $t0, 0($a0)
+addio $a0, $a0, 4
+addu $t2, $t0, $t1
+move $t0, $t1
+move $t1, $t2
+addiu $t3, $t3, 0x1
+bne $t3, $t4, -28
+nop
+jr $31
+nop
+            \end{lstlisting}
+
+        \subsubsection{实验结果}
+
+            \begin{figure}[H]
+                \centering
+                %\includegraphics[width=0.7\linewidth]{figures/}
+                \caption{任务 2 实验结果}
+            \end{figure}
+
+        \newpage
+
+    \subsection{斐波那契数}
+
+        \subsubsection{实验说明}
+        
+            求第 60 个 Fibonacci 数，将结果保存到起始地址为 0x80400000 的 8 个字节中，并用 D 命令检查结果正确性。
+        
+        \subsubsection{实验思路}
+
+            整体思路同任务 1，难点在于数值较大，计算时需要将数字拆分为高 32 位和低 32 位分别计算，特别处理的地方在于低位计算溢出时需要向高位进位，即高位需要加上 1。
+        
+        \subsubsection{实验代码}
+
+            \begin{lstlisting}
+li $t0, 0x1
+li $t1, 0x1
+li $t3, 0x0
+li $t4, 0xA
+li $a0 , 0x80400000
+sw $t0, 0($a0)
+addio $a0, $a0, 4
+addu $t2, $t0, $t1
+move $t0, $t1
+move $t1, $t2
+addiu $t3, $t3, 0x1
+bne $t3, $t4, -28
+nop
+jr $31
+nop
+            \end{lstlisting}
+            
+        \subsubsection{实验结果}
+
+            \begin{figure}[H]
+                \centering
+                %\includegraphics[width=0.7\linewidth]{figures/}
+                \caption{任务 3 实验结果}
+            \end{figure}
+
+        \newpage
+
+\section{实验总结}
+    
+    本次实验内容对于平常的编程来说都是属于比较简单的题目，而实验目的主要也是为了熟悉 MIPS32 指令，在实验的同时也自己琢磨了一些 Debug 的方法，相信这次实验对之后工作会有很大的帮助。
+
+\end{document}
